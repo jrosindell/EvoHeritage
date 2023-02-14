@@ -358,8 +358,8 @@ test.Partitioned.EvoHeritage <- function(test.EH.tree,num.repeats,test.seed) {
       } 
     }
   }
-  partitioned.result <- partitioned.result/num.repeats
-  total.result <- total.result/num.repeats
+  partitioned.result <- (partitioned.result/num.repeats)/test.EH.tree$standardised.units
+  total.result <- (total.result/num.repeats)/test.EH.tree$standardised.units
   
   # my strategy will be to check each tip methodically
   # this will not be fast but I want it to be a different approach to the function being tested

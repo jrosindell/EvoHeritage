@@ -208,6 +208,10 @@ check.ancestral.evoheritage.tree <- function(input.tree) {
     print("no descendant.edge.to was specified")
     return(false)
   }
+  if(is.null(input.tree$standardised.units)) {
+    print("no standardised.units were specified")
+    return(false)
+  }
  
   # now we'll do more advanced testing 
   is.EHT <- TRUE # we'll set this to false and print a message if anything doesn't check out.
@@ -238,6 +242,11 @@ check.ancestral.evoheritage.tree <- function(input.tree) {
   if (!(max(test.node.ages)==4025)) {
     is.EHT <- FALSE
     print("oldest node did not correspond to the origin of life")
+  }
+  # check standardised units
+  if (!(input.tree$standardised.units==input.tree$lambda/input.tree$rho*(1-exp(-input.tree$rho)))) {
+    is.EHT <- FALSE
+    print("standardised units were wrong")
   }
     
   test.descendant.edge <- get.descendent.edges(input.tree)
@@ -308,6 +317,8 @@ make.ancestral.evoheritage.tree <- function(input.tree,rho,lambda = 1,min.age = 
     alpha[i] <- alpha.clac(input.tree$node.ages[input.tree$edge[i,1]],input.tree$node.ages[input.tree$edge[i,2]],rho,lambda,min.age,max.age)
   }
   
+  standardised.units <- alpha.clac(1,0,rho,lambda,0,1)
+  
   input.tree$alpha <- alpha
   input.tree$beta <- get.beta.vals(input.tree,rho) 
   descendent.edges <- get.descendent.edges(input.tree)
@@ -317,7 +328,7 @@ make.ancestral.evoheritage.tree <- function(input.tree,rho,lambda = 1,min.age = 
   input.tree$lambda <- lambda
   input.tree$min.age <- min.age
   input.tree$max.age <- max.age
-  
+  input.tree$standardised.units <- standardised.units
   return(input.tree)
 }
 
@@ -356,13 +367,6 @@ Random.EvoHeritage.copies <- function(input.tree,edge.index) {
   }
   return(current.result)
 }
-
-
-
-
-
-
-# testing done up to here.
 
 # This function takes an EvoHeritage tree and produces a dataframe of partitioned EvoHeritage on each tip as a return
 # loop over all edges with alpha > 0
@@ -403,10 +407,9 @@ Partitioned.EvoHeritage <- function(input.tree,num.repeats) {
       
     } # close repeat calcs
     tip.label <- input.tree$tip.label # get tip labels
-    partitioned.EvoHeritage <- partitioned.EvoHeritage/num.repeats # normalise for number of repeats
-    ancestral.EvoHeritage <- ancestral.EvoHeritage/num.repeats  # normalise for number of repeats
-    result.data <- data.frame(tip.label,partitioned.EvoHeritage)
-    result.data$ancestral.EvoHeritage <- ancestral.EvoHeritage
+    partitioned.EvoHeritage <- partitioned.EvoHeritage/num.repeats/input.tree$standardised.units # normalise for number of repeats
+    ancestral.EvoHeritage <- ancestral.EvoHeritage/num.repeats/input.tree$standardised.units  # normalise for number of repeats
+    result.data <- data.frame(tip.label,partitioned.EvoHeritage,ancestral.EvoHeritage)
     result.data <- result.data[order(-result.data$partitioned.EvoHeritage),]
     result.data$lf.rank <- 1:num.leaf.nodes
     return(result.data) # return a data data frame with results
