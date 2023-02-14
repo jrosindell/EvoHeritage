@@ -1,4 +1,4 @@
-#Functions to detect living fossils on a phylogentic tree using partitioned phylogenetic diversity
+#General Functions for EvoHeritage Calculations
 
 # install useful packages
 require(ape)

@@ -1,4 +1,4 @@
-#Code to test functions for detecting living fossils on a phylogentic tree using partitioned phylogenetic diversity
+#Code for detecting living fossils on a phylogentic tree using partitioned EvoHeritage
 
 # clear workspace
 rm(list=ls()) 
