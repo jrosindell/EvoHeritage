@@ -1,6 +1,9 @@
 # Data directory specific to this repository
 Data/
 
+# Mac users need to exclude certain system files as well
+**/.DS_Store
+
 # include all the sensible GitIgnore files for R based on https://github.com/github/gitignore
 
 # History files
