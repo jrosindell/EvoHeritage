@@ -10,7 +10,7 @@ source("./Living Fossil Configuration.R")
 # record the time when the job started
 start.time <- as.numeric(proc.time()[3])
 
-for(i in 1: nrow(scenarios)) {
+for(i in 1: 1:4) {
   print("simulating new scenario")
   print(scenarios[i,])
   for (j in 1:length(tree.file.paths)) {
