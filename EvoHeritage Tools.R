@@ -416,4 +416,45 @@ Partitioned.EvoHeritage <- function(input.tree,num.repeats) {
   } # close else
 } # close function     
       
-
+# This function takes tree and produces a dataframe of ED on each tip as a return
+# the function works by calculating the ED of each node (whether a tip or not)
+# it will then ripple down the tree maintaining a running sum
+Calculate_ED <- function(input.tree) 
+{
+  if (attributes(input.tree)$order != "cladewise") {
+    stop("your tree needs to be ordered cladewise for this function to work")
+  } else {
+    # because of the cladewise ordering I can work down the edge list
+    # it's convenient to pre calculate dimension of the tree of sizing loops and vectors in a moment
+    num.interior.nodes <- input.tree$Nnode
+    num.leaf.nodes <- length(input.tree$tip.label)
+    num.nodes <- num.interior.nodes + num.leaf.nodes 
+    num.edges <- length(input.tree$edge.length)
+    
+    # initialise final result after all repeats
+    richness <- c(rep(1,length=(num.leaf.nodes)),rep(0,length=(num.interior.nodes))) # this will store the descendant richness for each node
+    ED <- rep(0,length=num.nodes) # this will store the ED for each node
+  
+    # loop over edges starting with tips and working up the tree
+    for (i in num.edges:1) {
+      # add up species richness
+      richness[test.tree$edge[i,1]] <- richness[test.tree$edge[i,1]] + richness[test.tree$edge[i,2]] 
+    }
+    
+    # loop over edges starting with root and working down the tree
+    for (i in 1:num.edges) {
+      # calculate share of current edge length and add to a running total from the parent node
+      ED[test.tree$edge[i,2]] <- (input.tree$edge.length[i] / richness[test.tree$edge[i,2]]) +  ED[test.tree$edge[i,1]]
+    }
+    
+    # throw away ED on interior nodes which was only a temporary tool for efficient calculation.
+    ED <- ED[1:num.leaf.nodes]
+    
+    tip.label <- input.tree$tip.label # get tip labels
+    result.data <- data.frame(tip.label,ED)
+    result.data <- result.data[order(-result.data$ED),]
+    result.data$lf.rank <- 1:num.leaf.nodes
+    return(result.data) # return a data data frame with results
+    
+  } # close else
+} # close function 

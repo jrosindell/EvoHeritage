@@ -398,6 +398,16 @@ if(test.Partitioned.EvoHeritage(test.EH.tree,500,43)){
   test.pass <- FALSE
 }
 
+test.ED <- Calculate_ED(make.test.tree())
+correct.ED <- c(2.5,2.5,2+1/3,1.5+1/3,1.5+1/3)
+if (sum((correct.ED-test.ED$ED)^2)<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - ED calculation")
+} else {
+  print(correct.ED-test.ED$ED)
+  print("WARNING ED calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
 print("===================================")
 print("Testing is completed")
 
@@ -407,3 +417,8 @@ if (test.pass) {
   print("FAIL - There were some issues - check the output above")
 }
 print("===================================")
+
+
+
+
+
