@@ -12,7 +12,7 @@ min.age <- c(145,66,145,66,145,66,0,0)
 max.age <- rep(4025,length=8)
 lambda <- rep(1,length=8)
 rho <- c(0.01,0.01,0.001,0.001,0,0,0,0.01)
-number.repeats <- c(rep(10,length=6),rep(2,length=2))
+number.repeats <- c(rep(10000,length=6),rep(10,length=2))
 seed <- 1:8
 name <- c("JurassicAll2","CretaceousAll2","JurassicAll3","CretaceousAll3","JurassicAllED","CretaceousAllED","EDcomp","EDcomprho")
 scenarios <- data.frame(name,seed,rho,lambda,min.age,max.age,number.repeats)
