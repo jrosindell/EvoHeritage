@@ -1,4 +1,4 @@
-#Unit testing of general Functions for EvoHeritage
+# Unit testing of general Functions for EvoHeritage
 
 # clear workspace
 rm(list=ls()) 

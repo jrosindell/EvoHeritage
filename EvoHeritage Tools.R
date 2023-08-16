@@ -2,7 +2,6 @@
 
 # install useful packages
 require(ape)
-require(stringr)
 
 # make a quick test funciton to see that two vectors are the same
 vector.equal <- function(v1,v2) {
@@ -18,7 +17,7 @@ vector.equal <- function(v1,v2) {
   }
 }
 
-# I want a function that will sum across the tree (assuming it's ultrametric) and give me dates for each node based on branch lengths
+# A function that will sum across the tree (assuming it's ultrametric) and give dates for each node based on branch lengths
 get.node.ages <- function(input.tree) {
   # start by calculating parameters for the tree - this is probably unnecessary but it's useful for readability
   num.interior.nodes <- input.tree$Nnode
@@ -38,7 +37,7 @@ get.node.ages <- function(input.tree) {
   return(node.ages)
 }
 
-# add a stem to a given tree
+# Add a stem to a given tree
 add.stem <- function(input.tree,stem.length) {
   # store number of edges and leaf nodes for convenience
   num.edges <- length(input.tree$edge.length)
@@ -61,7 +60,7 @@ add.stem <- function(input.tree,stem.length) {
   return(input.tree)
 }
 
-# return true if the tree has a stem otherwise return false
+# Return true if the tree has a stem otherwise return false
 has.stem <- function(input.tree) {
   # get the root node number
   root.node <- input.tree$edge[1,1]
@@ -75,7 +74,7 @@ has.stem <- function(input.tree) {
   }
 }
 
-# return a vector of the beta values for a tree given a value of rho
+# Return a vector of the beta values for a tree given a value of rho
 get.beta.vals <- function(input.tree,rho) {
   # I'll assume rho is already per unit length with lengths likely in millions of years
   beta <- exp(-rho * input.tree$edge.length)
@@ -83,7 +82,7 @@ get.beta.vals <- function(input.tree,rho) {
   return(beta) 
 }
 
-# calculate net alpha for a single edge
+# Calculate net alpha for a single edge
 # start.node.age is the node at the start of the edge
 # end.node.age is the node at the end of the edge
 # min.age gives the minimum number of years ago that EvoHeritage accumulation is turned on for 
@@ -102,7 +101,11 @@ alpha.clac <- function(start.node.age,end.node.age,rho,lambda,min.age,max.age) {
   accumulation.end <- max(min.age,end.node.age)
   # calculate an alpha for the given period
  
-  alpha <- (lambda/rho)*(1-exp(-rho*(accumulation.start-accumulation.end)))
+  if (rho == 0) {
+    alpha <- lambda*(accumulation.start-accumulation.end)
+  } else {
+    alpha <- (lambda/rho)*(1-exp(-rho*(accumulation.start-accumulation.end))) 
+  }
   # find out if the edge continues after accumulation stops
   if (end.node.age < min.age) {
     # need to adjust for this with attrition on the remainder of the edge
@@ -111,8 +114,8 @@ alpha.clac <- function(start.node.age,end.node.age,rho,lambda,min.age,max.age) {
   return(alpha)
 }
 
-# I want to build a function that will return me the range of edges descended from every edge of a tree
-# These will become pre-calculations to reduce the side of program loops later on
+# A function that will return the range of edges descended from every edge of a tree
+# These will become pre-calculations to reduce the sixe of program loops later on
 # It requires cladewise ordering which guarantees that any clade is represented by a fixed range of edges
 get.descendent.edges <- function(input.tree) {
   if (attributes(input.tree)$order != "cladewise") {
@@ -158,7 +161,7 @@ get.descendent.edges <- function(input.tree) {
 # $rho > 0 , $lambda > 0 - the parameters for accumulation and attrition that $alpha and $beta were calculated for
 # $min.age > $max.age > 0 - the period of history during which accumulation counts 
 
-# make a function to check that a tree object is consistent and meets the definition of being an evoheritage tree
+# A function to check that a tree object is consistent and meets the definition of being an evoheritage tree
 # this function can also be used for testing the function to make an evoheritage tree
 check.ancestral.evoheritage.tree <- function(input.tree) {
   # first we'll do basic tests that need to stop further testing if they fail
@@ -276,7 +279,7 @@ check.ancestral.evoheritage.tree <- function(input.tree) {
   return(is.EHT)
 }
 
-# make a function to process a tree by adding alpha and beta values to it.
+# A function to process a tree by adding alpha and beta values to it.
 make.ancestral.evoheritage.tree <- function(input.tree,rho,lambda = 1,min.age = 0,max.age = 4025) {
   # it's convenient to pre calculate dimension of the tree of sizing loops and vectors in a moment
   num.interior.nodes <- input.tree$Nnode
@@ -332,7 +335,7 @@ make.ancestral.evoheritage.tree <- function(input.tree,rho,lambda = 1,min.age = 
   return(input.tree)
 }
 
-# return a vector indicating which terminal vertices get copies of EvoHeritage
+# Return a vector indicating which terminal vertices get copies of EvoHeritage
 # from the edge indicated by edge.index and surviving attrition along all edges
 # the input.tree does need to be an ancestral EvoHeritage tree made and verified by the functions
 Random.EvoHeritage.copies <- function(input.tree,edge.index) {
@@ -416,7 +419,7 @@ Partitioned.EvoHeritage <- function(input.tree,num.repeats) {
   } # close else
 } # close function     
       
-# This function takes tree and produces a dataframe of ED on each tip as a return
+# This function takes a tree and produces a dataframe of ED on each tip as a return
 # the function works by calculating the ED of each node (whether a tip or not)
 # it will then ripple down the tree maintaining a running sum
 Calculate_ED <- function(input.tree) 
@@ -438,21 +441,22 @@ Calculate_ED <- function(input.tree)
     # loop over edges starting with tips and working up the tree
     for (i in num.edges:1) {
       # add up species richness
-      richness[test.tree$edge[i,1]] <- richness[test.tree$edge[i,1]] + richness[test.tree$edge[i,2]] 
+      richness[input.tree$edge[i,1]] <- richness[input.tree$edge[i,1]] + richness[input.tree$edge[i,2]] 
     }
     
     # loop over edges starting with root and working down the tree
     for (i in 1:num.edges) {
       # calculate share of current edge length and add to a running total from the parent node
-      ED[test.tree$edge[i,2]] <- (input.tree$edge.length[i] / richness[test.tree$edge[i,2]]) +  ED[test.tree$edge[i,1]]
+      ED[input.tree$edge[i,2]] <- (input.tree$edge.length[i] / richness[input.tree$edge[i,2]]) +  ED[input.tree$edge[i,1]]
     }
     
     # throw away ED on interior nodes which was only a temporary tool for efficient calculation.
-    ED <- ED[1:num.leaf.nodes]
+    # this is a bit of a hack but I'm calling it partitioned.EvoHeritage to enable later machinery to work the same on it
+    partitioned.EvoHeritage <- ED[1:num.leaf.nodes] 
     
     tip.label <- input.tree$tip.label # get tip labels
-    result.data <- data.frame(tip.label,ED)
-    result.data <- result.data[order(-result.data$ED),]
+    result.data <- data.frame(tip.label,partitioned.EvoHeritage)
+    result.data <- result.data[order(-result.data$partitioned.EvoHeritage),]
     result.data$lf.rank <- 1:num.leaf.nodes
     return(result.data) # return a data data frame with results
     
