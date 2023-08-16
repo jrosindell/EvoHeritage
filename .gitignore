@@ -1,7 +1,7 @@
 # Data directory specific to this repository
 Data/
 **/Living Fossils/Data/
-Living Fossils/Living Fossil Configuration.R
+**/Primary Productivity/Data/
 
 # Mac users need to exclude certain system files as well
 **/.DS_Store
