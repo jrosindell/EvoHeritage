@@ -145,7 +145,7 @@ ED <- ED.res[[1]]$rank
 full.data <- data.frame(Jurassic0,Jurassic0.01,Cretaceous0,Cretaceous0.01,Quaternary0,Quaternary0.01,ED)
 
 # now open a file and make the plot
-pdf(file = paste(graphs.file.path,"Pairs.pdf",sep=""),  width = 8, height = 8)
+pdf(file = paste(graphs.file.path,"Supplementary Figure Pairs.pdf",sep=""),  width = 8, height = 8)
 pairs(~Jurassic0.01 + Cretaceous0.01 + Quaternary0.01 + Jurassic0 + Cretaceous0 + Quaternary0 + ED, data = full.data,cex=0.1,labels=c("Jurassic","Cretaceous","Quaternary","Jurassic ED","Cretaceous ED","Quaternary ED", "ED"))
 dev.off()
 
