@@ -13,9 +13,13 @@ The working directory for running any of the example applications should be the 
 
 ## Living fossils application
 
+Calculated living fossilness for mammals using various methods based on ED and EvoHeritage
+Graphs the results and provides a comparison between the methods
 
 ## Primary productivity application
 
+Compares species richness, PD and EvoHeritage as descriptors of primary productivity in the Cedar Creek grassland experiments
+graphs the results comparing the methods
 
 # Citation
 These tools and the two applications are as described in "Phylogenetic Biodiversity Metrics Should Account for Both Accumulation and Attrition of Evolutionary Heritage" 2023 authored by James Rosindell, Kerry Manson, Rikki Gumbs, William D Pearse and Mike Steel
