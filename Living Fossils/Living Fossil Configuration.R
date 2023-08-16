@@ -10,16 +10,4 @@ for (i in 0:99) {
 # make a path for where to store all the results files
 results.file.path <- "Data/Results/"
 graphs.file.path <- "Data/Graphs/"
-
-# make a data frame of scenarios
-rho <- c(rep(0.01,length=4),rep(0.1,length=4)) # these are the two I did before
-lambda <- rep(1,length=8)
-min.age <- c(145,66,145,66)
-max.age <- c(201.4,145,4025,4025)
-min.age <- c(min.age,min.age)
-max.age <- c(max.age,max.age)
-seed <- 1:8
-name <- c("JurassicNew2","CretaceousNew2","JurassicAll2","CretaceousAll2","JurassicNew1","CretaceousNew1","JurassicAll1","CretaceousAll1")
-scenarios <- data.frame(name,seed,rho,lambda,min.age,max.age)
-
-number.repeats <- 10000 # we'll make this 10,000 for the main run
+csv.file.path <- "Data/CSV/"
