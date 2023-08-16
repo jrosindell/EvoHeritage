@@ -23,6 +23,7 @@ graphs the results comparing the methods
 
 # Citation
 These tools and the two applications are as described in "Phylogenetic Biodiversity Metrics Should Account for Both Accumulation and Attrition of Evolutionary Heritage" 2023 authored by James Rosindell, Kerry Manson, Rikki Gumbs, William D Pearse and Mike Steel
+https://doi.org/10.1101/2022.07.16.499419
 
 # Code authorship
 The EvoHeritage tools and living fossil applications are written by James Rosindell
