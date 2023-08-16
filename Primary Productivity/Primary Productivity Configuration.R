@@ -5,3 +5,4 @@
 results.file.path <- "Data/Results/"
 graphs.file.path <- "Data/Graphs/"
 csv.file.path <- "Data/CSV/"
+inputs.file.path <- "Data/Inputs/"
