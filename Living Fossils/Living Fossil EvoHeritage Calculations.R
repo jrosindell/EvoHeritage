@@ -3,14 +3,24 @@
 # clear workspace
 rm(list=ls()) 
 
-# source the functions we're wanting to test
+# source the functions we're wanting to use
 source("../EvoHeritage Tools.R")
-source("./Living Fossil Configuration.R")
+source("./Living Fossil Configuration.R") # a separate file giving the paths and filenames
+
+# make a data frame of scenarios this is te
+min.age <- c(145,66,145,66,145,66,0,0)
+max.age <- rep(4025,length=8)
+lambda <- rep(1,length=8)
+rho <- c(0.01,0.01,0.001,0.001,0,0,0,0.01)
+number.repeats <- c(rep(10,length=6),rep(2,length=2))
+seed <- 1:8
+name <- c("JurassicAll2","CretaceousAll2","JurassicAll3","CretaceousAll3","JurassicAllED","CretaceousAllED","EDcomp","EDcomprho")
+scenarios <- data.frame(name,seed,rho,lambda,min.age,max.age,number.repeats)
 
 # record the time when the job started
 start.time <- as.numeric(proc.time()[3])
 
-for(i in 1: 1:4) {
+for(i in 1:(length(scenarios[,1]))) {
   print("simulating new scenario")
   print(scenarios[i,])
   for (j in 1:length(tree.file.paths)) {
@@ -22,7 +32,7 @@ for(i in 1: 1:4) {
     # make an ancestral EvoHeritage Tree
     current.EH.tree <- make.ancestral.evoheritage.tree(current.tree,rho=scenarios$rho[i],lambda = scenarios$lambda[i],min.age = scenarios$min.age[i],max.age = scenarios$max.age[i])
     # do the calculation 
-    result.data <- (Partitioned.EvoHeritage(input.tree = current.EH.tree, num.repeats = number.repeats))
+    result.data <- (Partitioned.EvoHeritage(input.tree = current.EH.tree, num.repeats = scenarios$number.repeats[i]))
     # save the results
     write.csv(result.data , file = paste(results.file.path,"LivingFossil",str_pad(j, 4, pad = "0"),scenarios$name[i],sep="") , row.names = TRUE) 
     # print out the elapsed time is helpful 
@@ -30,5 +40,3 @@ for(i in 1: 1:4) {
     print(paste("time elapsed (hours)",(current.time-start.time)/3600,sep=" "))
   }
 }
-
-# I need to use standard units TODO
