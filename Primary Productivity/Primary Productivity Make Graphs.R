@@ -25,7 +25,7 @@ write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Unfiltered.all.csv"), row.nam
 
 # add a new data series to the graph for the case excluding grasses (only Pentapetalae)
 load(file=paste(results.file.path,"EH.PProd.results.nograss.rda",sep=""))
-lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="red",lty=3)
+lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="red",lty=3,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="red")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="red")
 
@@ -49,7 +49,7 @@ write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Unfiltered.Pentapetalae.csv")
 
 # add a new data series to the graph for the case excluding Pentapetalae (only grasses)
 load(file=paste(results.file.path,"EH.PProd.results.onlygrass.rda",sep=""))
-lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2)
+lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="blue")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="blue")
 
@@ -87,7 +87,7 @@ abline(v=max.rho,lty=1,lwd = 0.5)
 
 
 load(file=paste(results.file.path,"EH.PProd.results.nograss.drop0.rda",sep=""))
-lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="red",lty=3)
+lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="red",lty=3,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="red")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="red")
 
@@ -110,7 +110,7 @@ write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Filtered.all.csv"), row.names
 write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Filtered.Pentapetalae.csv"), row.names=FALSE)
 
 load(file=paste(results.file.path,"EH.PProd.results.onlygrass.drop0.rda",sep=""))
-lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2)
+lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="blue")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="blue")
 
@@ -122,7 +122,7 @@ for(i in 2:length(EvoH.results$rho)) {
     max.rho <- EvoH.results$rho[i]
   }
 }
-abline(v=max.rho,lty=2,col="blue",lwd = 0.5)
+abline(v=max.rho,lty=2,col="blue",lwd=0.5)
 
 
 write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Filtered.Poaceae.csv"), row.names=FALSE)
