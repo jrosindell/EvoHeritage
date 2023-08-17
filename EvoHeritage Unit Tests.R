@@ -6,6 +6,8 @@ rm(list=ls())
 # source the functions we're wanting to test
 source("./EvoHeritage Tools.R")
 
+origin.life <- 4025
+
 test.pass <- TRUE # we'll make this false if any test fails
 
 # make a small test tree from scratch
@@ -235,7 +237,7 @@ if(vector.equal(correct.answer,test.result[[2]])) {
 
 # testing the make.ancestral.evoheritage.tree function and the check.ancestral.evoheritage.tree function
 
-if(check.ancestral.evoheritage.tree(make.ancestral.evoheritage.tree(make.test.tree(),rho=0.02,lambda = 1.2,min.age = 0,max.age = 4025))){
+if(check.ancestral.evoheritage.tree(make.ancestral.evoheritage.tree(make.test.tree(),rho=0.02,lambda = 1.2,min.age = 0,max.age = origin.life))){
   print("PASSED - make.ancestral.evoheritage.tree and check.ancestral.evoheritage.tree 1")
 }  else {
   print("WARNING make.ancestral.evoheritage.tree or check.ancestral.evoheritage.tree FAILED unit testing")
@@ -296,7 +298,7 @@ test.random.copies <- function(test.EH.tree, edge.index, test.seed) {
 }
 
 test.tree <- make.test.tree()
-test.EH.tree <- make.ancestral.evoheritage.tree(test.tree,rho=0.01,lambda=1,min.age = 0,max.age = 4025)
+test.EH.tree <- make.ancestral.evoheritage.tree(test.tree,rho=0.01,lambda=1,min.age = 0,max.age = origin.life)
 
 if(test.random.copies(test.EH.tree,edge.index = 1,test.seed = 1)){
   print("PASSED - Random.EvoHeritage.copies 1")
@@ -408,6 +410,132 @@ if (sum((correct.ED-test.ED$ED)^2)<0.000000001) { #allowing for a little machine
   test.pass <- FALSE
 }
 
+# test the total EvoHeritage functions
+
+# load in the test data from caper
+data(BritishBirds)
+
+# rho small WITHOUT unit standardisation gives us PD with added stem to the origin of life
+Phi_rho_results  <- Phi_rho(BritishBirds.tree,1:250,0,std.units = FALSE)
+PD <- pd.calc(clade.matrix(BritishBirds.tree),tip.subset = 1:250,root.edge=FALSE)
+PD_with_stem  <- PD + origin.life - crown.age(BritishBirds.tree)      
+
+if ((PD_with_stem-Phi_rho_results)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - PD limit rho = 0 calculation")
+} else {
+  print("WARNING PD limit rho = 0 calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# Now standard units still give us PD correctly
+Phi_rho_results  <- Phi_rho(BritishBirds.tree,5:200,0,std.units = TRUE)
+PD <- pd.calc(clade.matrix(BritishBirds.tree),tip.subset = 5:200,root.edge=FALSE)
+PD_with_stem  <- PD + origin.life - crown.age(BritishBirds.tree)  
+
+if ((Phi_rho_results-PD_with_stem)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - PD limit with unit standardisation calculation")
+} else {
+  print("WARNING PD limit with unit standardisation calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# rho very large WITH unit standardisation gives us species richness
+Phi_rho_results  <- Phi_rho(BritishBirds.tree,1:250,100,std.units = TRUE)
+richness <- length(1:250)
+
+if ((richness-Phi_rho_results)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - richenss limit calculation")
+} else {
+  print("WARNING richenss limit calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+
+# rho very large WITH unit standardisation gives us species richness
+Phi_rho_results  <- Phi_rho(BritishBirds.tree,5:200,100,std.units = TRUE)
+richness <- length(5:200)
+
+if ((richness-Phi_rho_results)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - richenss limit calculation (2)")
+} else {
+  print("WARNING richenss limit calculation (2) FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# small rho WITH or WITHOUT unit standardisation for a single species gives us the origin of life
+Phi_rho_results <- Phi_rho(BritishBirds.tree,c(42),0,std.units = FALSE)
+
+if ((Phi_rho_results-origin.life)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - Phi_rho for single species with rho = 0 gives origin of life calculation")
+} else {
+  print("WARNING  Phi_rho for single species with rho = 0 gives origin of life calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# LARGE rho WITH unit standardisation for a single species gives us one
+
+Phi_rho_results <- Phi_rho(BritishBirds.tree,c(42),100,std.units = TRUE)
+
+if ((Phi_rho_results-1)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - Phi_rho for single species with rho large gives unity calculation")
+} else {
+  print("WARNING  Phi_rho for single species with rho large gives unity calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# test the crown age function - consistency regardless of species we measure from
+
+crown.age1 <- crown.age(BritishBirds.tree)
+crown.age2 <- crown.age(BritishBirds.tree,1)
+crown.age3 <- crown.age(BritishBirds.tree,20)
+
+if ((crown.age1-crown.age2)^2+(crown.age3-crown.age2)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - crown age consistency calculation")
+} else {
+  print("WARNING crown age consistency calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+# now some actual EvoHeritage calculations for the same test tree.
+
+rho <- 0.1
+Phi_rho_results <- Phi_rho(make.test.tree(),1:5,rho,origin.life=crown.age(make.test.tree()),std.units = TRUE)
+
+# the tree has two kinds of branch so let's get alpha and beta for each first
+beta.1 <- exp(-1*rho)
+beta.2 <- exp(-2*rho)
+alpha.1 <- (1/rho)*(1-beta.1)
+alpha.2 <- (1/rho)*(1-beta.2)
+
+# now let's do total_phi 
+total_phi <- alpha.2*3+alpha.1*2 # tips
+total_phi <- total_phi + alpha.1*(1-(1-beta.1)^2) # interior branch from node 7
+total_phi <- total_phi + alpha.1*(1-(1-beta.2)^2) # interior branch from node 6 to node 9
+total_phi <- total_phi + alpha.1*(1-(1-beta.2)*(1-beta.1*(1-(1-beta.1)^2))) # interior branch from node 6 to node 7
+std <- alpha.1 # standard units
+total_phi <- total_phi/alpha.1
+
+if ((Phi_rho_results-total_phi)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - Phi_rho total calculation")
+} else {
+  print("WARNING  Phi_rho total calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
+Phi_rho_results <- Phi_rho(make.test.tree(),4:5,rho,origin.life=crown.age(make.test.tree()),std.units = TRUE)
+
+total_phi <- alpha.2*2
+total_phi <- total_phi + alpha.1*(1-(1-beta.2)^2)
+std <- alpha.1
+total_phi <- total_phi/alpha.1
+
+if ((Phi_rho_results-total_phi)^2<0.000000001) { #allowing for a little machine error here.
+  print("PASSED - Phi_rho nodes 4,5 calculation")
+} else {
+  print("WARNING  Phi_rho nodes 4,5 calculation FAILED unit testing")
+  test.pass <- FALSE
+}
+
 print("===================================")
 print("Testing is completed")
 
@@ -417,7 +545,6 @@ if (test.pass) {
   print("FAIL - There were some issues - check the output above")
 }
 print("===================================")
-
 
 
 
