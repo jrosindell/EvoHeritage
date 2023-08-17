@@ -1,7 +1,12 @@
 # Data directory specific to this repository
-Data/
-**/Living Fossils/Data/
-**/Primary Productivity/Data/
+
+**/Living Fossils/Data/Results/*
+**/Living Fossils/Data/Mammal phylogenies/*
+**/Primary Productivity/Data/CSV/*
+
+**/Primary Productivity/Data/Results/*
+**/Primary Productivity/Data/Inputs/*
+**/Primary Productivity/Data/CSV/*
 
 # Mac users need to exclude certain system files as well
 **/.DS_Store
