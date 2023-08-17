@@ -8,9 +8,13 @@
 **/Primary Productivity/Data/Inputs/*
 **/Primary Productivity/Data/CSV/*
 
-!/Primary Productivity/Data/CSV/README.md
+!/Living Fossils/Data/Results/README.md
+!/Living Fossils/Data/Mammal phylogenies/README.md
 !/Living Fossils/Data/CSV/README.md
 
+!/Primary Productivity/Data/Results/README.md
+!/Primary Productivity/Data/Inputs/README.md
+!/Primary Productivity/Data/CSV/README.md
 
 # Mac users need to exclude certain system files as well
 **/.DS_Store
