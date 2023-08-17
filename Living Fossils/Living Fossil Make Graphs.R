@@ -117,6 +117,7 @@ full.process <- function(scenario.name,num.files=100,top.limit=16) {
   tip.list <-  result[[2]][1:top.limit,]$result.data.tip.label # list top few species for more data
   tip.list <- rev(tip.list) # so final box plot goes top to bottom 
   result[[3]] <- flat.process.LF.files(files,tip.list) # for box plots to show uncertainty around top few
+  write.csv(result[[1]], paste(csv.file.path,"Livingfossilness_results_",scenario.name,".csv",sep=""), row.names=FALSE)
   return(result) # return the full set of pre processed data for this scenario
 }
 
