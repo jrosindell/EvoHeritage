@@ -289,7 +289,7 @@ make.ancestral.evoheritage.tree <- function(input.tree,rho,lambda = 1,min.age = 
   num.edges <- length(input.tree$edge.length)
   
   # we take the origin of life as the midpoint of current min and max estimates 
-  origin.life <- (3.77+4.28)*10^3/2
+  origin.life <- 4025 # (3.77+4.28)*10^3/2
   # (3.77*10^9,4.28*10^9) years and measure in millions of years 
   
   # calculate the node ages
