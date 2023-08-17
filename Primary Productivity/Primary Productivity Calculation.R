@@ -1,5 +1,4 @@
-# Repeating Cadotte et al. (2009) PLoS One for EvoH
-# Will Pearse - 2022-06-22
+# Repeating Cadotte et al. (2009) PLoS One using EvoHeritage
 
 rm(list=ls())
 

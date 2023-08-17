@@ -644,9 +644,8 @@ Phi_rho <- function(phylogeny.in , tips.in , rho , origin.life = (3.77+4.28)*10^
   }
 }
 
-# now I will write a function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
+# A function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
 # x should be a comparative.comm object as defined in pez
-# I'm not trying to make the code efficient I'm just trying to get it to work at this stage
 EvoHpez <- function(x, rho , origin.life = NULL , std.units = TRUE) {
   number.communities <- nrow(x$comm)
   # pez returns some kind of dataframe, I'll just return a vector of values
@@ -662,9 +661,8 @@ EvoHpez <- function(x, rho , origin.life = NULL , std.units = TRUE) {
 }
 
 
-# now I will write a function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
+# A function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
 # x should be a comparative.comm object as defined in pez
-# I'm not trying to make the code efficient I'm just trying to get it to work at this stage
 richpez <- function(x, rho , origin.life = (3.77+4.28)*10^3/2 , std.units = TRUE) {
   number.communities <- nrow(x$comm)
   # pez returns some kind of dataframe, I'll just return a vector of values
