@@ -21,13 +21,11 @@ Graphs the results and provides a comparison between the methods
 Compares species richness, PD and EvoHeritage as descriptors of primary productivity in the Cedar Creek grassland experiments
 graphs the results comparing the methods
 
-# Citation
-These tools and the two applications are as described in "Phylogenetic Biodiversity Metrics Should Account for Both Accumulation and Attrition of Evolutionary Heritage" 2023 authored by James Rosindell, Kerry Manson, Rikki Gumbs, William D Pearse and Mike Steel
-https://doi.org/10.1101/2022.07.16.499419
-
-# Code authorship
+# Code authorship and citation
 The EvoHeritage tools and living fossil applications are written by James Rosindell
 The primary productivity application was written by James Rosindell and William D Pearse
+These tools and the two applications are as described in "Phylogenetic Biodiversity Metrics Should Account for Both Accumulation and Attrition of Evolutionary Heritage" 2023 authored by James Rosindell, Kerry Manson, Rikki Gumbs, William D Pearse and Mike Steel
+https://doi.org/10.1101/2022.07.16.499419
 
 # Contact details
 For any questions about using this code please write to j.rosindell@imperial.ac.uk
