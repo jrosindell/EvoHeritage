@@ -8,8 +8,8 @@
 **/Primary Productivity/Data/Inputs/*
 **/Primary Productivity/Data/CSV/*
 
-!/Primary Productivity/Data/CSV/README.md.gitkeep 
-!/Living Fossils/Data/CSV/README.md.gitkeep 
+!/Primary Productivity/Data/CSV/README.md
+!/Living Fossils/Data/CSV/README.md
 
 
 # Mac users need to exclude certain system files as well
