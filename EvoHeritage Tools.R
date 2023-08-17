@@ -628,50 +628,50 @@ Phi_rho <- function(phylogeny.in , tips.in , rho , origin.life = (3.77+4.28)*10^
   to.edge <- cm.in$edge[dim(cm.in$edge)[1],1]
   prop.survive[to.edge] <- 1-prop.eroded[to.edge]
   
-  # total up the GPD
-  GPD_tot <- 0
+  # total up the EvoH
+  EvoH_tot <- 0
   for (i in 1:(length(cm.in$edge.length))) {
-    GPD_tot <- GPD_tot + (alpha[[i]]* prop.survive[i])
+    EvoH_tot <- EvoH_tot + (alpha[[i]]* prop.survive[i])
   }
   
   if (std.units) {
     # return Phi_rho in standard units
     std.unit <- alpha.calc(1) # this is now for 1 million years which is a new standard unit
-    return(GPD_tot / std.unit)
+    return(EvoH_tot / std.unit)
   } else {
     # return Phi_rho without standardisation
-    return(GPD_tot) 
+    return(EvoH_tot) 
   }
 }
 
-# now I will write a function gpd_pez which will perform like the .pd function of pez and consider a community matrix
+# now I will write a function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
 # x should be a comparative.comm object as defined in pez
 # I'm not trying to make the code efficient I'm just trying to get it to work at this stage
-gpdpez <- function(x, rho , origin.life = NULL , std.units = TRUE) {
+EvoHpez <- function(x, rho , origin.life = NULL , std.units = TRUE) {
   number.communities <- nrow(x$comm)
   # pez returns some kind of dataframe, I'll just return a vector of values
-  gpd.result <- c()
+  EvoH.result <- c()
   for ( i in 1:number.communities) {
     current.tips <- as.numeric(which(x$comm[i,]>=1)) # get a list of the tips present in this community
     current.phy <- x$phy 
     class(current.phy) <- "phylo" # dangerous hack thing to do but annoyingly the x object phylo doesn't have a class
-    current.gpd <- Phi_rho(current.phy, current.tips , rho , origin.life , std.units)
-    gpd.result <- c(gpd.result,current.gpd)
+    current.EvoH <- Phi_rho(current.phy, current.tips , rho , origin.life , std.units)
+    EvoH.result <- c(EvoH.result,current.EvoH)
   }
-  return(gpd.result)
+  return(EvoH.result)
 }
 
 
-# now I will write a function gpd_pez which will perform like the .pd function of pez and consider a community matrix
+# now I will write a function EvoH_pez which will perform like the .pd function of pez and consider a community matrix
 # x should be a comparative.comm object as defined in pez
 # I'm not trying to make the code efficient I'm just trying to get it to work at this stage
 richpez <- function(x, rho , origin.life = (3.77+4.28)*10^3/2 , std.units = TRUE) {
   number.communities <- nrow(x$comm)
   # pez returns some kind of dataframe, I'll just return a vector of values
-  gpd.result <- c()
+  EvoH.result <- c()
   for ( i in 1:number.communities) {
     current.tips <- as.numeric(which(x$comm[i,]>=1)) # get a list of the tips present in this community
-    gpd.result <- c(gpd.result,length(current.tips))
+    EvoH.result <- c(EvoH.result,length(current.tips))
   }
-  return(gpd.result)
+  return(EvoH.result)
 }

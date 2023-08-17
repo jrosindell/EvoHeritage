@@ -1,4 +1,4 @@
-# Repeating Cadotte et al. (2009) PLoS One for GPD
+# Repeating Cadotte et al. (2009) PLoS One for EvoH
 # Will Pearse - 2022-06-22
 
 rm(list=ls())
@@ -40,11 +40,11 @@ if (mode == "nograss") {
 pd <- setNames(.pd(c.data)[,1], sites(c.data))
 pd <- pd[names(biomass)]
 
-gpd.results <- data.frame(matrix("NA", nrow = 0, ncol = 13), stringsAsFactors = FALSE)
+EvoH.results <- data.frame(matrix("NA", nrow = 0, ncol = 13), stringsAsFactors = FALSE)
 
 df <- data.frame(matrix("NA", nrow = 0, ncol = 1000), stringsAsFactors = FALSE)
 
-names(gpd.results) <- c("rho","pd_stat","gpd_stat","sr_stat","pd_param","gpd_param","sr_param","pd_pval","gpd_pval","sr_pval","pd_est","gpd_est","sr_est")
+names(EvoH.results) <- c("rho","pd_stat","EvoH_stat","sr_stat","pd_param","EvoH_param","sr_param","pd_pval","EvoH_pval","sr_pval","pd_est","EvoH_est","sr_est")
 
 rho.list <- 10^(seq(from=-4,to=4,by=0.2))
 
@@ -54,15 +54,15 @@ best.clean.data <- NULL
 
 for (rho in rho.list) {
     
-gpd <- setNames(gpdpez(c.data,rho,origin.life=NULL,std.units=TRUE), sites(c.data))
-gpd <- gpd[names(biomass)]
+EvoH <- setNames(EvoHpez(c.data,rho,origin.life=NULL,std.units=TRUE), sites(c.data))
+EvoH <- EvoH[names(biomass)]
 
 # Match metrics and biomass data, then aggregate by years in Cadotte et al.
 clean.data <- data.frame(ids=names(pd))
 clean.data$site <- sapply(strsplit(clean.data$ids, "_"), function(x) x[1])
 clean.data$year <- sapply(strsplit(clean.data$ids, "_"), function(x) x[2])
 clean.data$pd <- pd[clean.data$ids]
-clean.data$gpd <- gpd[clean.data$ids]
+clean.data$EvoH <- EvoH[clean.data$ids]
 clean.data$biomass <- biomass[clean.data$ids]
 clean.data$n.spp <- rowSums(c.data$comm>0)[clean.data$ids]
 clean.data <- clean.data[clean.data$year %in% c(1996:2007),]
@@ -77,19 +77,19 @@ clean.data <- clean.data[!clean.data$site %in% c(126,166,244,248),]
 
 print(rho)
 pd.res <- (cor.test(clean.data$biomass, clean.data$pd))
-gpd.res <- (cor.test(clean.data$biomass, clean.data$gpd))
+EvoH.res <- (cor.test(clean.data$biomass, clean.data$EvoH))
 sr.res <- (cor.test(clean.data$biomass, clean.data$n.spp))
-gpd.res.row <- c(rho,pd.res$statistic,gpd.res$statistic,sr.res$statistic,pd.res$parameter,gpd.res$parameter,sr.res$parameter,pd.res$p.value,gpd.res$p.value,sr.res$p.value,pd.res$estimate,gpd.res$estimate,sr.res$estimate)
-gpd.results <- rbind(gpd.results,gpd.res.row) 
+EvoH.res.row <- c(rho,pd.res$statistic,EvoH.res$statistic,sr.res$statistic,pd.res$parameter,EvoH.res$parameter,sr.res$parameter,pd.res$p.value,EvoH.res$p.value,sr.res$p.value,pd.res$estimate,EvoH.res$estimate,sr.res$estimate)
+EvoH.results <- rbind(EvoH.results,EvoH.res.row) 
 
-if (gpd.res$estimate > best.corr) {
-  best.corr <- gpd.res$estimate
+if (EvoH.res$estimate > best.corr) {
+  best.corr <- EvoH.res$estimate
   best.rho <- rho
   best.clean.data <- clean.data
 }
 
 }
-names(gpd.results) <- c("rho","pd_stat","gpd_stat","sr_stat","pd_param","gpd_param","sr_param","pd_pval","gpd_pval","sr_pval","pd_est","gpd_est","sr_est")
+names(EvoH.results) <- c("rho","pd_stat","EvoH_stat","sr_stat","pd_param","EvoH_param","sr_param","pd_pval","EvoH_pval","sr_pval","pd_est","EvoH_est","sr_est")
 
 filename <- paste(results.file.path,"EH.PProd.results",sep="")
 
@@ -106,7 +106,7 @@ if (drop.zeros) {
 
 filename <- paste(filename,"rda",sep=".")
 
-save(gpd.results,best.rho,best.corr,best.clean.data,file = filename)
+save(EvoH.results,best.rho,best.corr,best.clean.data,file = filename)
 
 }
 
