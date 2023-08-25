@@ -1,6 +1,8 @@
 # This code will configure the Living Fossil calculations example with study specific parameters and local paths
 # Do not change the file name - it is sourced from the calculation scripts
 
+require(stringr)
+
 # make a vector of paths to the tree files that will be used
 tree.file.paths <- c()
 for (i in 0:99) {
