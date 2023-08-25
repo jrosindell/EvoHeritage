@@ -8,7 +8,7 @@ source("../EvoHeritage Tools.R")
 source("./Primary Productivity Configuration.R") # keep paths and various other details in a separate config file
 
 # open PDF to make the graph in 
-pdf(file = paste(graphs.file.path,"Figure8.pdf"),  width = 8, height = 8)
+pdf(file = paste(graphs.file.path,"Figure8.pdf",sep=""),  width = 8, height = 8)
 # prepare for 4 panels
 par(mfrow = c(2, 2))
 
