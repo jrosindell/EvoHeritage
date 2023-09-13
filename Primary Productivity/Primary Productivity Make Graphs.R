@@ -52,6 +52,7 @@ load(file=paste(results.file.path,"EH.PProd.results.onlygrass.rda",sep=""))
 lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="blue")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="blue")
+text(0.0002,0.645,"a)", cex = 1)
 
 max.corr <- EvoH.results$EvoH_est[1]
 max.rho <- EvoH.results$rho[1]
@@ -71,8 +72,9 @@ load(file=paste(results.file.path,"EH.PProd.results.drop0.rda",sep=""))
 plot(EvoH.results$rho,EvoH.results$EvoH_est,log="x",type="l",ylim=c(0.39,0.47),xlim=c(10^-4,1),xlab=expression(paste("Information erosion (",rho,")")),ylab=expression(paste("Correlation ",varphi[rho]," with biomass")),main="Filtered data")
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3)
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3)
+text(0.00016,0.465,"b)", cex = 1)
 
-legend(10^-4, 0.47, legend=c("all species", expression(paste("Poaceae")),expression(paste("Pentapetalae"))),
+legend(10^-4, 0.46, legend=c("all species", expression(paste("Poaceae")),expression(paste("Pentapetalae"))),
        col=c("black","blue", "red"), lty=c(1,2,3), cex=0.8, box.lty=0)
 
 max.corr <- EvoH.results$EvoH_est[1]
@@ -114,6 +116,7 @@ lines(EvoH.results$rho,EvoH.results$EvoH_est,type="l",col="blue",lty=2,lwd=2)
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3,col="blue")
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3,col="blue")
 
+
 max.corr <- EvoH.results$EvoH_est[1]
 max.rho <- EvoH.results$rho[1]
 for(i in 2:length(EvoH.results$rho)) {
@@ -130,8 +133,10 @@ write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Filtered.Poaceae.csv"), row.n
 par(mar = c(9,4, 0, 2))
 load(file=paste(results.file.path,"EH.PProd.results.nograss.rda",sep=""))
 plot(best.clean.data$EvoH,best.clean.data$biomass,pch=4,cex=0.75,xlab=expression(paste(varphi[rho],"(","Pentapetalae",") for optimal ",rho ,"=0.0016")),ylab="Total biomass")
+text(20,2100,"c)", cex = 1)
 load(file=paste(results.file.path,"EH.PProd.results.nograss.drop0.rda",sep=""))
 plot(best.clean.data$EvoH,best.clean.data$biomass,pch=4,cex=0.75,xlab=expression(paste(varphi[rho],"(","Pentapetalae",") for optimal ",rho ,"=0.16")),ylab="Total biomass")
+text(10,2100,"d)", cex = 1)
 
 dev.off()
 

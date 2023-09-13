@@ -162,14 +162,19 @@ lines(1:length(JurassicAll2.res[[2]]$LF.median),JurassicAll2.res[[2]]$LF.median,
 legend(200, 7, legend=c(expression(paste(rho,"=",10^-2)), expression(paste(rho,"=",10^-3))), col=c("black", rgb(0.65,0.75,1)), lty=1, lwd=c(1,2), cex=1,
        box.lty=0)
 rect(1, 0, 16, 8, col = rgb(0, 0, 0, max = 255, alpha = 20),border=FALSE)
+text(4,4.3,"Top 16", cex = 1)
+text(32,7,"a)", cex = 1)
+
+# make title for the pair of plots for Jurassic case
+text(20000000,8,"Jurassic Mammalian Living Fossils", cex = 1.5, pos = 2,xpd=NA)
 
 # make boxplot for Jurassic case
-text(4,4.3,"Top 16", cex = 1)
-text(20000000,8,"Jurassic Mammalian Living Fossils", cex = 1.5, pos = 2,xpd=NA)
 op <- par(mar = c(5,11,4,2) + 0.1) ## default is c(5,4,4,2) + 0.1
 boxplot(partitioned.EvoHeritage~tip.label,data=JurassicAll2.res[[3]],  horizontal=TRUE, 
         xlab=expression(paste("Living-fossil-ness ",rho,"=",10^-2)), ylab="",las=1,cex=0.5,yaxt="n")
 axis(2,font.axis=3,labels = JurassicAll2.res[[3]]$tip.label[1:16], at = 1:16,las=2)
+text(5.2,15.5,"b)", cex = 1)
+
 op <- par(mar = c(5,4,4,2) + 0.1) # set back to default values
 
 # make the rank plot for Cretaceous case
@@ -178,14 +183,18 @@ lines(1:length(CretaceousAll3.res[[2]]$LF.median),CretaceousAll2.res[[2]]$LF.med
 legend(200, 7, legend=c(expression(paste(rho,"=",10^-2)), expression(paste(rho,"=",10^-3))), col=c("black", rgb(0.65,0.75,1)), lty=c(1,1), lwd=c(1,2), cex=1,
        box.lty=0)
 rect(1, 0, 16, 8, col = rgb(0, 0, 0, max = 255, alpha = 20),border=FALSE)
+text(4,4.3,"Top 16", cex = 1)
+text(32,7.3,"c)", cex = 1)
+
+# make title for the pair of plots for Cretaceous case
+text(20000000,8,"Cretaceous Mammalian Living Fossils", cex = 1.5, pos = 2,xpd=NA)
 
 # make boxplot for Cretaceous case
-text(4,4.3,"Top 16", cex = 1)
-text(20000000,8,"Cretaceous Mammalian Living Fossils", cex = 1.5, pos = 2,xpd=NA)
 op <- par(mar = c(5,11,4,2) + 0.1) ## default is c(5,4,4,2) + 0.1
 boxplot(partitioned.EvoHeritage~tip.label,data=CretaceousAll2.res[[3]],  horizontal=TRUE, 
         xlab=expression(paste("Living-fossil-ness ",rho,"=",10^-2)), ylab="",las=1,cex=0.5,yaxt="n")
 axis(2,font.axis=3,labels = CretaceousAll2.res[[3]]$tip.label[1:16], at = 1:16,las=2)
+text(5.6,15.5,"d)", cex = 1)
 
 # close file
 dev.off()
