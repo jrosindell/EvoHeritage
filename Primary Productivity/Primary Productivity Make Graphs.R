@@ -14,7 +14,7 @@ par(mfrow = c(2, 2))
 
 # make first plot and draw first line (all species case)
 load(file=paste(results.file.path,"EH.PProd.results.rda",sep=""))
-plot(EvoH.results$rho,EvoH.results$EvoH_est,log="x",type="l",ylim=c(0.44,0.67),xlim=c(10^-4,1),xlab=expression(paste("Information erosion (",rho,")")),ylab=expression(paste("Correlation ",varphi[rho]," with biomass")),main="Unfiltered data")
+plot(EvoH.results$rho,EvoH.results$EvoH_est,log="x",type="l",ylim=c(0.44,0.67),xlim=c(10^-4,1),xlab=expression(paste("EvoHeritage attrition (",rho,")")),ylab=expression(paste("Correlation ",varphi[rho]," with biomass")),main="Unfiltered data")
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3)
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3)
 # draw a vertical line to show where the max is
@@ -69,7 +69,7 @@ write.csv(EvoH.results, paste(csv.file.path,"Fig.8.Unfiltered.Poaceae.csv"), row
 
 # make the second plot
 load(file=paste(results.file.path,"EH.PProd.results.drop0.rda",sep=""))
-plot(EvoH.results$rho,EvoH.results$EvoH_est,log="x",type="l",ylim=c(0.39,0.47),xlim=c(10^-4,1),xlab=expression(paste("Information erosion (",rho,")")),ylab=expression(paste("Correlation ",varphi[rho]," with biomass")),main="Filtered data")
+plot(EvoH.results$rho,EvoH.results$EvoH_est,log="x",type="l",ylim=c(0.39,0.47),xlim=c(10^-4,1),xlab=expression(paste("EvoHeritage attrition (",rho,")")),ylab=expression(paste("Correlation ",varphi[rho]," with biomass")),main="Filtered data")
 points(1,EvoH.results$sr_est[2],pch = 1,cex=1.3)
 points(10^-4,EvoH.results$pd_est[2],pch = 16,cex=1.3)
 text(0.00016,0.465,"b)", cex = 1)
